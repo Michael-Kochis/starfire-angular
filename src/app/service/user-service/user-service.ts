@@ -9,7 +9,7 @@ import { User } from '../../model/user';
   providedIn: 'root',
 })
 export class UserService {
-  private userSource = new BehaviorSubject<User | null>(null);
+  private userSource = new BehaviorSubject<User| null>({roles: "Player"} as User);
   currentUser = this.userSource.asObservable();
 
   user$: Observable<User | null> = this.currentUser;
@@ -35,8 +35,13 @@ export class UserService {
   }
 
   setUser(user: User): void {
-    user.roles = (user &&user.roles) ? user.roles : "Player";
-    this.userSource.next(user);
+    const safeUser: User = user ? { ...user } : ({} as User);
+
+    if (!safeUser.roles) {
+      safeUser.roles = "Player";
+    }
+
+    this.userSource.next(safeUser);
   }
 
 

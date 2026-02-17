@@ -26,9 +26,7 @@ export class LoginForm {
       this.userService.login(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('Login successful!', response)
-          const token = response.token
-          const user: User = response.user
-          sessionStorage.setItem('auth_token', token)
+          const user: User = response
           this.userService.setUser(user);
         },
         error: (err) => console.error('Login failed', err)
