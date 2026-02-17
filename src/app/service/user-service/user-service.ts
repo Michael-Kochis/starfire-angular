@@ -35,6 +35,7 @@ export class UserService {
   }
 
   setUser(user: User): void {
+    user.roles = (user &&user.roles) ? user.roles : "Player";
     this.userSource.next(user);
   }
 
